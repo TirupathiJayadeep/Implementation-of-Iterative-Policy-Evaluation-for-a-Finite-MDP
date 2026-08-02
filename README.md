@@ -99,34 +99,49 @@ Where:
 ## Program
 
 ```python
+import gymnasium as gym
+import numpy as np
 
+env = gym.make("FrozenLake-v1", map_name="4x4", is_slippery=True)
+env = env.unwrapped
 
-# -------------------------------------------------
-# Policy Evaluation Function
-# -------------------------------------------------
+n_states = env.observation_space.n
+n_actions = env.action_space.n
 
+gamma = 0.99
+theta = 1e-8
 
-# -------------------------------------------------
-# Display Output
-# -------------------------------------------------
+policy = np.ones((n_states, n_actions)) / n_actions
 
-# Change the parameters and observe the results
-
+V = np.zeros(n_states)
+    V = np.zeros(env.observation_space.n)
+    iteration = 0
+    while True:
+        delta = 0
+        new_V = np.copy(V)
+        for state in range(env.observation_space.n):
+            value = 0
+            for action in range(env.action_space.n):
+                action_prob = policy[state][action]
+                for prob, next_state, reward, done in env.P[state][action]:
+                    value += action_prob * prob * (
+                        reward + gamma * V[next_state] * (not done)
+                    )
+            new_V[state] = value
+            delta = max(delta, abs(V[state] - new_V[state]))
+        V = new_V
+        iteration += 1
+        if delta < theta:
+            break
+    return V, iteration
 ```
 
 ---
 
 ## Output
 
-```text
+<img width="752" height="245" alt="image" src="https://github.com/user-attachments/assets/1e5cf7b5-25a7-4569-9762-28576daebd51" />
 
-Number of Iterations: 
-
-State-Value Function as 4x4 Grid:
-
-
-
-```
 ---
 
 ## Result
@@ -138,13 +153,10 @@ Iterative policy evaluation was implemented successfully using the Gymnasium Fro
 ## Inference
 
 ```text
-
-
-
+Iterative policy evaluation successfully estimates the state-value function of a fixed policy by repeatedly applying the Bellman expectation equation until the values converge.
+The estimated state values depend on the chosen policy, discount factor (γ), and the transition probabilities of the FrozenLake environment, reflecting the expected long-term return from each state.
+States closer to the goal generally obtain higher value estimates, while states near holes or with lower chances of reaching the goal receive lower state values under the random policy.
 ```
-
-
-
 
 ---
 
