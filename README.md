@@ -152,12 +152,15 @@ Iterative policy evaluation was implemented successfully using the Gymnasium Fro
 
 ## Inference
 
-```
-Iterative policy evaluation successfully estimates the state-value function of a fixed policy by repeatedly applying the Bellman expectation equation until the values converge.
-The estimated state values depend on the chosen policy, discount factor (γ), and the transition probabilities of the FrozenLake environment, reflecting the expected long-term return from each state.
-States closer to the goal generally obtain higher value estimates, while states near holes or with lower chances of reaching the goal receive lower state values under the random policy.
+
+1.Iterative policy evaluation successfully estimates the state-value function of a fixed policy by repeatedly applying the Bellman expectation equation until the values converge.
+
+2.The estimated state values depend on the chosen policy, discount factor (γ), and the transition probabilities of the FrozenLake environment, reflecting the expected long-term return from each state.
+
+3.States closer to the goal generally obtain higher value estimates, while states near holes or with lower chances of reaching the goal receive lower state values under the random policy.
+
 ---
-```
+
 
 
 
