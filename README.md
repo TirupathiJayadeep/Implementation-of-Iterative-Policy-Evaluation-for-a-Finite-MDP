@@ -99,21 +99,7 @@ Where:
 ## Program
 
 ```python
-import gymnasium as gym
-import numpy as np
-
-env = gym.make("FrozenLake-v1", map_name="4x4", is_slippery=True)
-env = env.unwrapped
-
-n_states = env.observation_space.n
-n_actions = env.action_space.n
-
-gamma = 0.99
-theta = 1e-8
-
-policy = np.ones((n_states, n_actions)) / n_actions
-
-V = np.zeros(n_states)
+def policy_evaluation(env, policy, gamma=0.99, theta=1e-8):
     V = np.zeros(env.observation_space.n)
     iteration = 0
     while True:
